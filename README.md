@@ -19,6 +19,8 @@ The monitor records only timestamp, success, a fixed status code, attempt count 
 3. Set `SUPABASE_PUBLISHABLE_KEY` as a repository Actions secret using the existing public/publishable key. No database password, service-role key, user login or personal access token belongs here.
 4. Set repository variable `MONITOR_ENABLED` to `true` only after the database function passes a real probe. Run the workflow manually once. Confirm both the check and status commit succeed before relying on its schedule. Set it to `false` to suspend checks without changing billing or credentials.
 
+The manual `test_only` option runs the validation tests while leaving the production probe and status commit skipped. It works even while `MONITOR_ENABLED` is false; a green test-only run is not proof of a successful production check.
+
 Credentials are read only from environment variables. The monitor never prints headers, response bodies or exception objects. Its only network targets are the fixed Undercover Supabase origin and this repository's GitHub contents API. The workflow's short-lived `GITHUB_TOKEN` can update this monitor repository's status file; no long-lived GitHub token is stored in the repository.
 
 ## Verify locally

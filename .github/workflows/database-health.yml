@@ -5,6 +5,11 @@ on:
     - cron: '17 1,9,17 * * *'
       timezone: Europe/Oslo
   workflow_dispatch:
+    inputs:
+      test_only:
+        description: Validate the monitor without contacting Supabase
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -15,7 +20,7 @@ concurrency:
 
 jobs:
   check:
-    if: github.repository == 'eiriknicholas/undercover-health' && vars.MONITOR_ENABLED == 'true'
+    if: github.repository == 'eiriknicholas/undercover-health' && (vars.MONITOR_ENABLED == 'true' || inputs.test_only == true)
     runs-on: ubuntu-24.04
     timeout-minutes: 2
     steps:
@@ -25,6 +30,7 @@ jobs:
       - name: Validate monitor
         run: node --test tests/*.test.mjs
       - name: Check database and record status
+        if: inputs.test_only != true
         env:
           SUPABASE_URL: ${{ vars.SUPABASE_URL }}
           SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
