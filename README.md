@@ -27,6 +27,10 @@ Credentials are read only from environment variables. The monitor never prints h
 
 With Node 20.11 or newer, `npm test` runs without installing dependencies. `node --env-file=PATH_TO_EXISTING_ENV scripts/check.mjs --probe-only` performs the real read-only check without recording status. The local probe also accepts the existing app's `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` environment-variable names. Never commit or copy credential files into this repository.
 
+## Deployment verification — 3 November 2026
+
+The function is installed in the existing Undercover project. A live API request returned HTTP 200 and exactly `true`. A separate administrator read-only query confirmed the function uses invoker security, `anon` can execute only the probe, and `anon` still has no direct SELECT privilege on the game rooms, players or secret-task tables. Five monitor tests passed locally and on the GitHub runner. Successful production checks are recorded separately in `status.json`; a green test-only run does not substitute for that record. No subscription, payment method or game data was changed.
+
 If a project is already paused, restore it from the Supabase dashboard first. If checks fail, inspect the fixed error code and restore service; do not repeatedly add credentials or upgrade billing. Before a real event, test sign-in and guest joining separately: this probe checks database liveness only.
 
 ## Removal
