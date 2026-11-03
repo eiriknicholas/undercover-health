@@ -1,0 +1,10 @@
+{
+  "name": "undercover-health",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "probe": "node scripts/check.mjs --probe-only"
+  },
+  "engines": { "node": ">=20.11" }
+}

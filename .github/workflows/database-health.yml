@@ -1,0 +1,32 @@
+name: Undercover database health
+
+on:
+  schedule:
+    - cron: '17 1,9,17 * * *'
+      timezone: Europe/Oslo
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: database-health
+  cancel-in-progress: false
+
+jobs:
+  check:
+    if: github.repository == 'eiriknicholas/undercover-health' && vars.MONITOR_ENABLED == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Validate monitor
+        run: node --test tests/*.test.mjs
+      - name: Check database and record status
+        env:
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/check.mjs
