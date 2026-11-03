@@ -1,0 +1,8 @@
+{
+  "service": "Undercover database",
+  "checked_at": "2026-11-03T15:58:26.016Z",
+  "healthy": true,
+  "code": "OK",
+  "attempts": 1,
+  "http_status": 200
+}
