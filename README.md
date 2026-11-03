@@ -29,7 +29,7 @@ With Node 20.11 or newer, `npm test` runs without installing dependencies. `node
 
 ## Deployment verification — 3 November 2026
 
-The function is installed in the existing Undercover project. A live API request returned HTTP 200 and exactly `true`. A separate administrator read-only query confirmed the function uses invoker security, `anon` can execute only the probe, and `anon` still has no direct SELECT privilege on the game rooms, players or secret-task tables. Five monitor tests passed locally and on the GitHub runner. Successful production checks are recorded separately in `status.json`; a green test-only run does not substitute for that record. No subscription, payment method or game data was changed.
+The function is installed in the existing Undercover project. A live API request returned HTTP 200 and exactly `true`. A separate administrator read-only query confirmed the function uses invoker security, the new function is executable by `anon`, and `anon` still has no direct SELECT privilege on the game rooms, players or secret-task tables. Five monitor tests passed locally and on the GitHub runner. The full production workflow passed, including the real database probe and public status commit; successful checks are recorded in `status.json`. A green test-only run does not substitute for that record. These checks do not prove the absence of all security issues. No subscription, payment method or game data was changed.
 
 If a project is already paused, restore it from the Supabase dashboard first. If checks fail, inspect the fixed error code and restore service; do not repeatedly add credentials or upgrade billing. Before a real event, test sign-in and guest joining separately: this probe checks database liveness only.
 
